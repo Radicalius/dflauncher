@@ -59,6 +59,8 @@ public class main {
         frame = new JFrame("DF Launcher");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(860,680);
+        frame.setResizable(false);
+        frame.setIconImage(new ImageIcon("samples/dwarfsx0.jpg").getImage());
 
         BorderLayout bl = new BorderLayout();
         frame.setLayout(bl);

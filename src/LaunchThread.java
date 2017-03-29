@@ -41,13 +41,11 @@ public class LaunchThread extends Thread {
             //deleteDirectory(new File(main.install+"\\data"));
             System.out.print(main.install+"\\data");
             ZipFile zf = new ZipFile("packs/"+pack.filename);
-            ZipEntry raw = zf.getEntry(pack.path+"/raw");
-            ZipEntry data = zf.getEntry(pack.path+"/data");
             ZipInputStream zis = new ZipInputStream(new FileInputStream("packs/"+pack.filename));
             ZipEntry ze;
             int total = zis.available();
             while ((ze = zis.getNextEntry())!= null){
-                if (ze.toString().startsWith(pack.path) && !ze.toString().equals(pack.path)) {
+                if (ze.toString().startsWith(pack.path) && !ze.toString().contains("\\save\\") && !ze.toString().equals(pack.path)) {
                     String fname = main.install+"\\"+ze.toString().replace(pack.path,"").replace("/","\\");
                     if (ze.isDirectory()){
                         new File(fname).mkdir();
