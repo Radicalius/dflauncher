@@ -39,14 +39,13 @@ public class LaunchThread extends Thread {
             main.jpb.setValue(0);
             //deleteDirectory(new File(main.install+"\\raw"));
             //deleteDirectory(new File(main.install+"\\data"));
-            System.out.print(main.install+"\\data");
             ZipFile zf = new ZipFile("packs/"+pack.filename);
             ZipInputStream zis = new ZipInputStream(new FileInputStream("packs/"+pack.filename));
             ZipEntry ze;
             int total = zis.available();
             while ((ze = zis.getNextEntry())!= null){
-                if (ze.toString().startsWith(pack.path) && !ze.toString().contains("\\save\\") && !ze.toString().equals(pack.path)) {
-                    String fname = main.install+"\\"+ze.toString().replace(pack.path,"").replace("/","\\");
+                if (ze.toString().startsWith(pack.path) && !ze.toString().contains(File.separator + "save" + File.separator) && !ze.toString().equals(pack.path)) {
+                    String fname = main.install+File.separator+ze.toString().replace(pack.path,"").replace("/",File.separator);
                     if (ze.isDirectory()){
                         new File(fname).mkdir();
                     }else{
@@ -56,7 +55,11 @@ public class LaunchThread extends Thread {
             }
         } catch (IOException e){ System.out.println(e);}
         try {
-            Runtime.getRuntime().exec(new String[] {main.install+"\\Dwarf Fortress.exe"},null, new File(main.install));
+            if (System.getProperty("os.name").equals("Linux") || System.getProperty("os.name").equals("OSX")){
+                Runtime.getRuntime().exec(new String[] {main.install+File.separator+"df"},null, new File(main.install));
+            }else {
+                Runtime.getRuntime().exec(new String[]{main.install + File.separator + "Dwarf Fortress.exe"}, null, new File(main.install));
+            }
             System.exit(0);
         } catch (Exception f){
             System.out.println(f);
